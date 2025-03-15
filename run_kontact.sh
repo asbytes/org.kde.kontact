@@ -45,5 +45,11 @@ trap stop_akonadi EXIT
 kbuildsycoca6
 
 # Start Kontact, this will auto-start Akonadi as well
-exec kontact "$@"
 
+exec kontact "$@" &
+
+KONTACT_PID=$(pgrep -x kontact)
+
+waitpid ${KONTACT_PID}
+
+qdbus org.kde.kalendarac /MainApplication quit
